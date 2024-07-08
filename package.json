@@ -1,0 +1,20 @@
+{
+  "name": "todomate-srv",
+  "version": "1.0.0",
+  "description": "Your go-to app for easy task management. Stay organized and productive effortlessly.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "TodoMate",
+    "todoapp"
+  ],
+  "author": "Mustak",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.2"
+  }
+}
