@@ -2,16 +2,6 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
-    /**
-     * Type 1
-     */
-    // userName: String,
-    // email: String,
-    // phone: Number,
-
-    /**
-     * Type 2
-     */
     userName: {
       type: String,
       required: true,
@@ -38,4 +28,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const User = mongoose.model('User', userScema);
+export const User = mongoose.model('User', userSchema);
