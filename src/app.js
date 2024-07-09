@@ -17,4 +17,8 @@ app.use(express.urlencoded({ extended: true, limit: DATA_LIMIT }));
 app.use(express.static("public"));
 app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
 
+//Import routes
+import userRouter from './routes/user.router.js';
+app.use('/api/v1/users',userRouter);
+
 export { app };
