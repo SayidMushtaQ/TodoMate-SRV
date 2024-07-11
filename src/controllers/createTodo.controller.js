@@ -43,7 +43,7 @@ export const createTodo = asyncHanlder(async(req,res)=>{
        isComplete,
        createdBy:user._id
     });
-    res.status(200).json(
+    res.status(201).json(
         new ApiResponse(200,newTodo,"A new Todo has been created successfully.")
     )
 })
