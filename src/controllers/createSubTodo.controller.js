@@ -15,9 +15,9 @@ export const createSubTodo = asyncHanlder(async (req, res) => {
    * 3) Check TODO Present or NOT
    * 3) Add in DB
    */
-  const { content, userID, todoID } = req.body;
-  console.log(content, userID);
-  if ([content, userID, todoID].some(val => val === "")) {
+  const { content, todoID } = req.body;
+
+  if ([content, todoID].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [
       "Please fill up all necessary fields"
     ]);
@@ -29,14 +29,14 @@ export const createSubTodo = asyncHanlder(async (req, res) => {
     ]);
   }
 
-  const user = await User.findById({ _id: userID }).select("id");
-  if (!user) {
+  const todo = await Todo.findById({ _id: todoID }).select("id");
+  if (!todo) {
     throw new ApiError(404, "User does not exist.");
   }
 
   const newSubTodo = await SubTodo.create({
     content,
-    createdBy: user.id
+    createdBy: todo.id
   });
 
   await Todo.findByIdAndUpdate(
@@ -49,5 +49,5 @@ export const createSubTodo = asyncHanlder(async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(200, newSubTodo, "New sub TODO created Successfully"));
+    .json(new ApiResponse(200, newSubTodo, "New Sub TODO created Successfully"));
 });
