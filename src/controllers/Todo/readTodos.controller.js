@@ -1,6 +1,6 @@
-import { Todo } from "../modules/todo.model.js";
-import { ApiResponse } from "../util/apiResponse.js";
-import { asyncHanlder } from "../util/asyncHandler.js";
+import { Todo } from "../../modules/todo.model.js";
+import { ApiResponse } from "../../util/apiResponse.js";
+import { asyncHanlder } from "../../util/asyncHandler.js";
 
 export const readTodos = asyncHanlder(async (req, res) => {
   const todos = await Todo.find({});

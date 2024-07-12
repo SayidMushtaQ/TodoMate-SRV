@@ -1,8 +1,8 @@
-import { Todo } from "../modules/todo.model.js";
-import { asyncHanlder } from "../util/asyncHandler.js";
-import { BAD_WORD_REGEX } from "../constants.js";
-import { SubTodo } from "../modules/sub_todo.model.js";
-import { ApiResponse } from "../util/apiResponse.js";
+import { Todo } from "../../../modules/todo.model.js";
+import { asyncHanlder } from "../../../util/asyncHandler.js";
+import { BAD_WORD_REGEX } from "../../../constants.js";
+import { SubTodo } from "../../../modules/sub_todo.model.js";
+import { ApiResponse } from "../../../util/apiResponse.js";
 
 export const createSubTodo = asyncHanlder(async (req, res) => {
   /**

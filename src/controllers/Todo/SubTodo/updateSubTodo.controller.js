@@ -1,8 +1,8 @@
-import { asyncHanlder } from "../util/asyncHandler.js";
-import { BAD_WORD_REGEX } from "../constants.js";
-import { ApiError } from "../util/apiError.js";
-import { SubTodo } from "../modules/sub_todo.model.js";
-import { ApiResponse } from "../util/apiResponse.js";
+import { asyncHanlder } from "../../../util/asyncHandler.js";
+import { BAD_WORD_REGEX } from "../../../constants.js";
+import { ApiError } from "../../../util/apiError.js";
+import { SubTodo } from "../../../modules/sub_todo.model.js";
+import { ApiResponse } from "../../../util/apiResponse.js";
 export const updateSubTodo = asyncHanlder(async (req, res) => {
   const { content, isComplete, subTodoID } = req.body;
   if (!content) {

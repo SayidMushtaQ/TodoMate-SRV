@@ -1,7 +1,7 @@
-import { SubTodo } from "../modules/sub_todo.model.js";
-import { ApiResponse } from "../util/apiResponse.js";
-import { asyncHanlder } from "../util/asyncHandler.js";
-import { ApiError } from "../util/apiError.js";
+import { SubTodo } from "../../../modules/sub_todo.model.js";
+import { ApiResponse } from "../../../util/apiResponse.js";
+import { asyncHanlder } from "../../../util/asyncHandler.js";
+import { ApiError } from "../../../util/apiError.js";
 
 export const readSubTodos = asyncHanlder(async (req, res) => {
   const { todoID } = req.body;

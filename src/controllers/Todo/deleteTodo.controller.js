@@ -1,6 +1,6 @@
-import { asyncHanlder } from "../util/asyncHandler.js";
-import {Todo} from '../modules/todo.model.js';
-import {ApiError} from '../util/apiError.js';
+import { asyncHanlder } from "../../util/asyncHandler.js";
+import {Todo} from '../../modules/todo.model.js';
+import {ApiError} from '../../util/apiError.js';
 
 export const deleteTodo = asyncHanlder(async(req,res)=>{
     const {todoID} = req.body;

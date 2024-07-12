@@ -1,8 +1,8 @@
-import { ApiError } from "../util/apiError.js";
-import { ApiResponse } from "../util/apiResponse.js";
-import { asyncHanlder } from "../util/asyncHandler.js";
-import { Todo } from "../modules/todo.model.js";
-import { BAD_WORD_REGEX } from "../constants.js";
+import { ApiError } from "../../util/apiError.js";
+import { ApiResponse } from "../../util/apiResponse.js";
+import { asyncHanlder } from "../../util/asyncHandler.js";
+import { Todo } from "../../modules/todo.model.js";
+import { BAD_WORD_REGEX } from "../../constants.js";
 export const updateTodo = asyncHanlder(async (req, res) => {
   /**
    * Update TODO

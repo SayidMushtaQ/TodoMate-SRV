@@ -1,8 +1,8 @@
 import {Router} from 'express';
-import { createTodo } from '../controllers/createTodo.controller.js';
-import {readTodos} from '../controllers/readTodos.controller.js';
-import { updateTodo } from '../controllers/updateTodo.controller.js';
-import { deleteTodo } from '../controllers/deleteTodo.controller.js';
+import { createTodo } from '../controllers/Todo/createTodo.controller.js';
+import {readTodos} from '../controllers/Todo/readTodos.controller.js';
+import { updateTodo } from '../controllers/Todo/updateTodo.controller.js';
+import { deleteTodo } from '../controllers/Todo/deleteTodo.controller.js';
 
 const router = Router();
 

@@ -1,5 +1,5 @@
-import {SubTodo} from '../modules/sub_todo.model.js'
-import {ApiError} from '../util/apiError.js';
+import {SubTodo} from '../../../modules/sub_todo.model.js'
+import {ApiError} from '../../../util/apiError.js';
 export const deleteSubTodo = (async(req,res)=>{
     const {subTodoID} = req.body;
     const subTodo = await SubTodo.findById({_id:subTodoID}).select('_id');
