@@ -24,9 +24,14 @@ export const updateTodo = asyncHanlder(async(req,res)=>{
       throw new ApiError(400,'An error has occurred. Please try again.')
     }
     
-    const todo = await Todo.findById({_id:todoID}).select('_id');
+    const todo = await Todo.findById({_id:todoID});
     if(!todo){
         throw new ApiError(404,'The requested TODO does not exist.')
+    }
+    if(todo.content.title === title && todo.content.description === description && todo.isComplete === isComplete){
+        return res.status(200).json(
+            new ApiResponse(200,todo,{message:"Todo item updated successfully",todoId:todo._id})
+        )
     }
     const update = {
         content:{
@@ -38,6 +43,6 @@ export const updateTodo = asyncHanlder(async(req,res)=>{
     const updatedTodo = await Todo.findByIdAndUpdate({_id:todoID},update,{new:true});
 
     res.status(200).json(
-        new ApiResponse(200,updatedTodo,{message:"Todo item updated successfully.",todoId:updatedTodo._id})
+        new ApiResponse(200,updatedTodo,{message:"Todo item updated successfully",todoId:updatedTodo._id})
     )
 })
