@@ -37,7 +37,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.method.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) { //methods not method
   return await bcryptjs.compare(password, this.password);
 };
 
