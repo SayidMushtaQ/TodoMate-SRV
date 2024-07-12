@@ -10,7 +10,11 @@ export const readSubTodos = asyncHanlder(async (req, res) => {
   }
 
   const subTodos = await SubTodo.find({ createdBy: todoID });
-
+  
+  if(!subTodos.length){
+    throw new ApiError(404, "Sub Todos does not found");
+  }
+  console.log(subTodos);
   res
     .status(200)
     .json(
