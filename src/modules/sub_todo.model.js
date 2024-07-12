@@ -12,7 +12,7 @@ const subTodoShema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Todo',
+      ref: 'User',
     },
   },
   { timestamps: true }
