@@ -3,7 +3,7 @@ import { ApiResponse } from "../../util/apiResponse.js";
 import { asyncHanlder } from "../../util/asyncHandler.js";
 
 export const readTodos = asyncHanlder(async (req, res) => {
-  const todos = await Todo.find({});
+  const todos = await Todo.find({createdBy:req.user._id});
   res
     .status(200)
     .json(

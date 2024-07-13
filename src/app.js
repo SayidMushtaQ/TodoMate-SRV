@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { DATA_LIMIT,API_VERSION_URL } from "./constants.js";
 import cookie_parser from "cookie-parser";
-
+import {restrictToLoggedUserOnly} from './middleware/auth.middleware.js'
 
 const app = express();
 
@@ -25,7 +25,7 @@ import todoRouter from './routes/todo.router.js';
 import subTodoRouter from './routes/subTodo.router.js';
 
 app.use(`${API_VERSION_URL}/users`,userRouter);
-app.use(`${API_VERSION_URL}/todo`,todoRouter);
-app.use(`${API_VERSION_URL}/subTodo`,subTodoRouter);
+app.use(`${API_VERSION_URL}/todo`,restrictToLoggedUserOnly,todoRouter);
+app.use(`${API_VERSION_URL}/subTodo`,restrictToLoggedUserOnly,subTodoRouter);
 
 export { app };
