@@ -3,6 +3,8 @@ import { EMAIL_REGEX } from "../constants.js";
 import { ApiError } from "../util/apiError.js";
 import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
+import {v4 as UudV4} from 'uuid'
+import {AuthSessionUser} from '../util/auth.js';
 export const userLogin = asyncHanlder(async (req, res) => {
   /**
    * User login
@@ -38,6 +40,11 @@ export const userLogin = asyncHanlder(async (req, res) => {
     throw new ApiError(401, "Wrong credentials.");
   }
 
+  const sessionID = UudV4();
+  const userSession = new  AuthSessionUser()
+  userSession.setUser(sessionID,isUserExist);
+
+  res.cookie('uuid',sessionID)
   return res
     .status(200)
     .json(
