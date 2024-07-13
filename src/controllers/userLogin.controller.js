@@ -3,8 +3,8 @@ import { EMAIL_REGEX } from "../constants.js";
 import { ApiError } from "../util/apiError.js";
 import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
-import {v4 as UudV4} from 'uuid'
-import {AuthSessionUser} from '../util/auth.js';
+import {v4 as uuidV4} from 'uuid'
+import {UserSessionHandle} from '../util/authUserHandler.js'
 export const userLogin = asyncHanlder(async (req, res) => {
   /**
    * User login
@@ -28,29 +28,31 @@ export const userLogin = asyncHanlder(async (req, res) => {
     userName = data;
   }
 
-  const isUserExist = await User.findOne({
+  const user = await User.findOne({
     $or: [{ userName }, { email }]
   });
-  if (!isUserExist) {
+  if (!user) {
     throw new ApiError(404, "User does not exist");
   }
 
-  const comparePasswords = await isUserExist.isPasswordCorrect(password);
+  const comparePasswords = await user.isPasswordCorrect(password);
   if (!comparePasswords) {
     throw new ApiError(401, "Wrong credentials.");
   }
 
-  const sessionID = UudV4();
-  const userSession = new  AuthSessionUser()
-  userSession.setUser(sessionID,isUserExist);
 
-  res.cookie('uuid',sessionID)
+  const cookieUID = uuidV4();
+  const userSession = new UserSessionHandle();
+  console.log(user)
+  userSession.setUser(cookieUID,user);
+  
+  res.cookie('localuserid',cookieUID)
   return res
     .status(200)
     .json(
       new ApiResponse(
         200,
-        { user: isUserExist, redirectURL: "/dashboard" },
+        { user: user, redirectURL: "/dashboard" },
         "Login successful."
       )
     );
