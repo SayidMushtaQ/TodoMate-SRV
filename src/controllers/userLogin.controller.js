@@ -48,7 +48,7 @@ export const userLogin = asyncHanlder(async (req, res) => {
     phone:user.phone
   }
   const token = userToken.setUser(uaserPayload);
-  return res.status(200).cookie('loginToken',token).json(
+  return res.status(200).cookie('loginToken',token,{expires:'2d'}).json(
     new ApiResponse(
       200,
       { user: user, redirectURL: "/dashboard" },
