@@ -1,12 +1,12 @@
 import { asyncHanlder } from "../util/asyncHandler.js";
-import {UserSessionHandle} from '../util/authUserHandler.js'
+import {UserTokenHandler} from '../util/authUserTokenHandler.js'
 import {ApiError} from '../util/apiError.js'
 export const restrictToLoggedUserOnly = asyncHanlder(async(req,_,next)=>{
-    const userSession = new UserSessionHandle();
-    const localUserID = req.cookies.localuserid;
-    const user = userSession.getUser(localUserID);
+    const userToken = new UserTokenHandler();
+    const token = req.cookies.loginToken;
+    const user = userToken.getUser(token);
  
-    if(!localUserID){
+    if(!userToken){
         throw new ApiError(400,"User not loged in")
     }
     if(!user){
