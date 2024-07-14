@@ -17,3 +17,10 @@ export class UserTokenHandler {
     }
   }
 }
+
+/**
+ * Token Based - (State Less) Auth
+    1) User Token Handler
+    2) Generate token and set as a cookie
+    3) Middleware
+ */
