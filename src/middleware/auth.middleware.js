@@ -4,16 +4,14 @@ import { ApiError } from "../util/apiError.js";
 import {excludedPaths} from '../constants.js'
 
 export const requireAuth  = asyncHanlder(async (req, _, next) => {
-  if(excludedPaths.includes(req.path)){
-    return next();
-  }
+  if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
   const userToken = new UserTokenHandler();
   const token = req.cookies?.loginToken;
   req.user = null;
-  if (!token) throw new ApiError(400, "User not loged in");
+  if (!token) throw new ApiError(401, "Access denied. No token provided. Please log in to obtain a token.",['Unauthorized']);
 
   const user = userToken.getUser(token);
-  if (!user) throw new ApiError(400, "User not loged in");
+  if (!user) throw new  ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
 
   req.user = user;
   return next();
@@ -21,9 +19,9 @@ export const requireAuth  = asyncHanlder(async (req, _, next) => {
 
 export function AllowTo(roles = []) {
   return asyncHanlder((req, res, next)=>{
-    if (!req.user) return res.send("Redirect to Login");
+    if (!req.user)  throw new ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
 
-    if (!roles.includes(req.user.role)) return res.end("Unothorized");
+    if (!roles.includes(req.user.role)) throw new ApiError(403, "Access denied. You do not have permission to access this resource. ",['Forbidden']);
     return next();
   });
 }
