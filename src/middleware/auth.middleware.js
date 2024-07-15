@@ -3,10 +3,15 @@ import {UserTokenHandler} from '../util/authUserTokenHandler.js'
 import {ApiError} from '../util/apiError.js'
 export const restrictToLoggedUserOnly = asyncHanlder(async(req,_,next)=>{
     const userToken = new UserTokenHandler();
-    const token = req.cookies.loginToken;
+    //Based on Cookie
+    const token = req.cookies?.loginToken;
     const user = userToken.getUser(token);
+
+    //Based On Response Token 
+    // const token = req.header('authorization')
+    // const user = userToken.getUser(token.split('Bearer ')[1]);
  
-    if(!userToken){
+    if(!token){
         throw new ApiError(400,"User not loged in")
     }
     if(!user){
