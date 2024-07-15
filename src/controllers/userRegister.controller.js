@@ -14,7 +14,7 @@ export const registerUser = asyncHanlder(async (req, res) => {
    * 5) Store user data
    */
 
-  const { userName, fullName, email, password, phone } = req.body;
+  const { userName, fullName, email, password, phone,role } = req.body;
   if ([fullName, userName, email, password, phone].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [
       "Please fill up all necessary fields"
@@ -37,12 +37,14 @@ export const registerUser = asyncHanlder(async (req, res) => {
     fullName,
     email,
     password,
-    phone
+    phone,
+    role
   });
   const userRegisterRes = {
     userName: newUser.userName,
     email: newUser.email,
-    fullName: newUser.fullName
+    fullName: newUser.fullName,
+    role:newUser.role
   };
 
   res
