@@ -5,6 +5,7 @@ import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
 import {UserTokenHandler} from '../util/authUserTokenHandler.js'
 export const userLogin = asyncHanlder(async (req, res) => {
+
   /**
    * User login
    */
@@ -45,7 +46,8 @@ export const userLogin = asyncHanlder(async (req, res) => {
     _id:user.id,
     email:user.email,
     userName:user.userName,
-    phone:user.phone
+    phone:user.phone,
+    role:user.role
   }
   const token = userToken.setUser(uaserPayload); 
   return res.status(200).cookie('loginToken',token).json( // If you used -> Header Authorization so then u need to send token as json
