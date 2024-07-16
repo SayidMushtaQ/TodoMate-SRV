@@ -26,7 +26,7 @@ import todoRoutes from "./routes/todo.router.js";
 import subTodoRoutes from "./routes/subTodo.router.js";
 import adminRoutes from './routes/admin.router.js';
 
-app.use(`${API_VERSION_URL}/users`, userRoutes);
+app.use(`${API_VERSION_URL}/users/auth`, userRoutes);
 app.use(`${API_VERSION_URL}/todo`, AllowTo(["ADMIN", "USER"]), todoRoutes);
 app.use(`${API_VERSION_URL}/subTodo`, AllowTo(["ADMIN", "USER"]), subTodoRoutes);
 app.use(`${API_VERSION_URL}/admin`,AllowTo(['ADMIN']),adminRoutes)
