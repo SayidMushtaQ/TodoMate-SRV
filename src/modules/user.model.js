@@ -17,12 +17,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       min: [6, "At least set 6 character password"]
-    },
-    phone: {
-      type: Number,
-      required: true
     },
     role:{
       type:String,
@@ -30,6 +25,12 @@ const userSchema = new mongoose.Schema(
       default:'USER',
       required:true
     },
+    provider:{
+      type:String,
+      default:'Credential'
+    },
+    phone: Number,
+    googleID:String,
     isVerified: Boolean,
     isActive: Boolean
   },
