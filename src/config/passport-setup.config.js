@@ -2,6 +2,19 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import { AUTH_Redirect_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
+
+passport.serializeUser((user,cb)=>{
+  cb(null,{
+    id:user.id,
+    userName:user.userName,
+    email:user.email
+  })
+});
+
+passport.deserializeUser((user,cb)=>{
+  cb(null,user);
+})
+
 passport.use(
   new GoogleStrategy(
     {
@@ -17,15 +30,22 @@ passport.use(
       const provider = profile.provider;
       const googleID = profile.id
       
-      const user = await User.create({
-        userName,
-        fullName,
-        email,
-        isVerified,
-        provider,
-        googleID
-      });
-      console.log("New user",user);
+      const existingUser = await User.findOne({googleID});
+      if(!existingUser){
+        const newUser = await User.create({
+          userName,
+          fullName,
+          email,
+          isVerified,
+          provider,
+          googleID
+        });
+        cb(null,newUser);
+      }else{
+        console.log("User already exist");
+        cb("User already exist..!!",existingUser);
+      }
+      
     }
   )
 );
