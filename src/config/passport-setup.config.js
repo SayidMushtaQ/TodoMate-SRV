@@ -4,15 +4,24 @@ import { AUTH_Redirect_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 
 passport.serializeUser((user,cb)=>{
-  cb(null,{
-    id:user.id,
-    userName:user.userName,
-    email:user.email
+  console.log("serializeUser: ",user)
+  process.nextTick(()=>{
+    return cb(null,{
+      id:user.id,
+      userName:user.userName,
+      email:user.email
+    })
   })
 });
 
 passport.deserializeUser((user,cb)=>{
-  cb(null,user);
+  console.log('deserializeUser: ',user)
+  process.nextTick(()=>{
+    User.findById({_id:user.id}).then((user)=>{
+      console.log("DB user: ",user);
+      return cb(null,user);
+    })
+  })
 })
 
 passport.use(
@@ -20,7 +29,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: AUTH_Redirect_URL
+      callbackURL: AUTH_Redirect_URL,
+      scope:['profile','email']
     },
     async (accessToken, refreshToken, profile, cb) => {
       const email = profile.emails[0].value;
