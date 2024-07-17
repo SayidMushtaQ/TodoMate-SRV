@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { DATA_LIMIT, API_VERSION_URL } from "./constants.js";
-import cookie_parser from "cookie-parser";
-import { requireAuth, AllowTo } from "./middleware/auth.middleware.js";
+// import cookie_parser from "cookie-parser";
+// import { requireAuth, AllowTo } from "./middleware/auth.middleware.js";
 import session from 'express-session';
 import './config/passport-setup.config.js';
 
@@ -16,11 +16,10 @@ app.use(
 );
 
 app.use(session({
-  name:"authSession",
-  secret:process.env.COOKIE_SESSION_SECRET_KEY,
+  secret:'sdlfjkjewoi23903924lkdf09kj34209',
   cookie: { maxAge: 24 * 60 * 60 * 1000 },
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }))
 
 //Down below: Data configaration

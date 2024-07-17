@@ -1,5 +1,5 @@
 import passport from "passport";
-import GoogleStrategy from "passport-google-oauth20";
+import {Strategy} from "passport-google-oauth20";
 import { AUTH_Redirect_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 
@@ -25,11 +25,11 @@ passport.deserializeUser((user,cb)=>{
 })
 
 passport.use(
-  new GoogleStrategy(
+  new Strategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: AUTH_Redirect_URL,
+      callbackURL: 'http://localhost:8000/api/v1/users/google/redirect',
       scope:['profile','email']
     },
     async (accessToken, refreshToken, profile, cb) => {
@@ -50,10 +50,10 @@ passport.use(
           provider,
           googleID
         });
-        cb(null,newUser);
+        return cb(null,newUser);
       }else{
         console.log("User already exist");
-        cb("User already exist..!!",existingUser);
+        return cb("User already exist..!!",existingUser);
       }
       
     }
