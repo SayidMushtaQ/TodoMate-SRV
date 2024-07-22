@@ -13,6 +13,8 @@ router.route('/user').get(userProfile)
 router.route('/register').post(registerUser);
 router.route('/login').post(userLogin);
 router.route('/userLogout').post(userLogout);
+
+
 router.route('/googleAuth').get(passport.authenticate('google',{scope:['profile','email']}));
 router.route('/google/redirect').get(passport.authenticate('google'),googleRedirect);
 

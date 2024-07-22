@@ -1,10 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { DATA_LIMIT, API_VERSION_URL } from "./constants.js";
-// import cookie_parser from "cookie-parser";
-// import { requireAuth, AllowTo } from "./middleware/auth.middleware.js";
-import session from 'express-session';
-import './config/passport-setup.config.js';
 
 const app = express();
 
@@ -15,21 +11,14 @@ app.use(
   }) 
 );
 
-app.use(session({
-  secret:'sdlfjkjewoi23903924lkdf09kj34209',
-  cookie: { maxAge: 24 * 60 * 60 * 1000 },
-  resave: false,
-  saveUninitialized: false,
-}))
+
 
 //Down below: Data configaration
 app.use(express.json({ limit: DATA_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: DATA_LIMIT }));
 app.use(express.static("public"));
-// app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
-app.use(passport.initialize());
-app.use(passport.session());
-// app.use(requireAuth);
+app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
+app.use(requireAuth);
 
 //Import routes
 import userRoutes from "./routes/user.router.js";
