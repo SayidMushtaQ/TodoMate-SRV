@@ -3,7 +3,7 @@ import cors from "cors";
 import { DATA_LIMIT, API_VERSION_URL } from "./constants.js";
 import cookie_parser from "cookie-parser";
 import { requireAuth } from "./middleware/auth.middleware.js";
-
+import "./config/passport-setup.config.js";
 const app = express();
 
 app.use(
@@ -18,7 +18,7 @@ app.use(express.json({ limit: DATA_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: DATA_LIMIT }));
 app.use(express.static("public"));
 app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
-app.use(requireAuth);
+// app.use(requireAuth);
 
 //Import routes
 import userRoutes from "./routes/user.router.js";

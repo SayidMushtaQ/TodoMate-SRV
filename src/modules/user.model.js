@@ -13,25 +13,28 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match:[EMAIL_REGEX,'Please enter a valid email address']
+      match: [EMAIL_REGEX, "Please enter a valid email address"]
     },
     password: {
       type: String,
       min: [6, "At least set 6 character password"]
     },
-    role:{
-      type:String,
-      enum:['USER','ADMIN','GUEST'],
-      default:'USER',
-      required:true
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN", "GUEST"],
+      default: "USER",
+      required: true
     },
-    provider:{
-      type:String,
-      default:'Credential'
+    provider: {
+      type: String,
+      default: "Credential"
+    },
+    isVerified: {
+      type: Boolean,
+      default: false
     },
     phone: Number,
-    googleID:String,
-    isVerified: Boolean,
+    googleID: String,
     isActive: Boolean
   },
   { timestamps: true }
@@ -44,7 +47,8 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function (password) { //methods not method
+userSchema.methods.isPasswordCorrect = async function (password) {
+  //methods not method
   return await bcryptjs.compare(password, this.password);
 };
 

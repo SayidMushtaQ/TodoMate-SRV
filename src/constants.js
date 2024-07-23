@@ -8,7 +8,7 @@ const excludedPaths = [
   "/api/v1/users/register",
   "/api/v1/users/googleAuth"
 ];
-const AUTH_Redirect_URL = "/api/v1/users/google/redirect";
+const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
 
 export {
   DB_NAME,
@@ -17,5 +17,5 @@ export {
   BAD_WORD_REGEX,
   API_VERSION_URL,
   excludedPaths,
-  AUTH_Redirect_URL
+  GOOGLE_AUTH_REDIRECT_URL
 };
