@@ -1,30 +1,30 @@
-import { asyncHanlder } from "../util/asyncHandler.js";
-import { UserTokenHandler } from "../util/authUserTokenHandler.js";
-import { ApiError } from "../util/apiError.js";
-import {excludedPaths} from '../constants.js'
+// import { asyncHanlder } from "../util/asyncHandler.js";
+// import { UserTokenHandler } from "../util/authUserTokenHandler.js";
+// import { ApiError } from "../util/apiError.js";
+// import {excludedPaths} from '../constants.js'
 
-export const requireAuth  = asyncHanlder(async (req, _, next) => { //Authenticaiton
-  if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
-  const userToken = new UserTokenHandler();
-  const token = req.cookies?.loginToken;
-  req.user = null;
-  if (!token) throw new ApiError(401, "Access denied. No token provided. Please log in to obtain a token.",['Unauthorized']);
+// export const requireAuth  = asyncHanlder(async (req, _, next) => { //Authenticaiton
+//   if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
+//   const userToken = new UserTokenHandler();
+//   const token = req.cookies?.loginToken;
+//   req.user = null;
+//   if (!token) throw new ApiError(401, "Access denied. No token provided. Please log in to obtain a token.",['Unauthorized']);
 
-  const user = userToken.getUser(token);
-  if (!user) throw new  ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
+//   const user = userToken.getUser(token);
+//   if (!user) throw new  ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
 
-  req.user = user;
-  return next();
-});
+//   req.user = user;
+//   return next();
+// });
 
-export function AllowTo(roles = []) { //Authorization
-  return asyncHanlder((req, res, next)=>{
-    if (!req.user)  throw new ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
+// export function AllowTo(roles = []) { //Authorization
+//   return asyncHanlder((req, res, next)=>{
+//     if (!req.user)  throw new ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
 
-    if (!roles.includes(req.user.role)) throw new ApiError(403, "Access denied. You do not have permission to access this resource. ",['Forbidden']);
-    return next();
-  });
-}
+//     if (!roles.includes(req.user.role)) throw new ApiError(403, "Access denied. You do not have permission to access this resource. ",['Forbidden']);
+//     return next();
+//   });
+// }
 
 /**
  * Authentication:
