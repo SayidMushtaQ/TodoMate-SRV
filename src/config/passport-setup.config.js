@@ -12,7 +12,6 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("Passport js callback")
       try {
         const email = profile.emails[0].value;
         const userName = email.split('@')[0];
@@ -41,14 +40,13 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("Run serializeUser: ");
+
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
-    console.log("Run deserializeUser: ");
     done(null, user);
   } catch (err) {
     done(err, null);
