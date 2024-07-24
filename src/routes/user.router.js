@@ -27,9 +27,4 @@ router.route("/googleAuth/redirect").get(
   })
 );
 
-router.get("/login", (req, res) => {
-  res.send(`  <main>
-            <a class="google-btn" href="/api/v1/users/googleAuth">Google+</a>
-        </main>`);
-});
 export default router;

@@ -6,7 +6,6 @@ import cookie_parser from "cookie-parser";
 import { requireAuth } from "./middleware/auth.middleware.js";
 import expressSession from "express-session";
 import passport from "passport";
-import MongoStore from 'connect-mongo';
 import "./config/passport-setup.config.js";
 const app = express();
 
@@ -24,10 +23,10 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       secure: false // Set to true if using HTTPS
-    },
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_SRC }),
+    }
   })
 );
+
 // Passport initisilized
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,7 +35,7 @@ app.use(passport.session());
 app.use(express.json({ limit: DATA_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: DATA_LIMIT }));
 app.use(express.static("public"));
-// app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
+app.use(cookie_parser(process.env.COOKIE_PARSER_SECRET));
 // app.use(requireAuth);
 
 //Import routes

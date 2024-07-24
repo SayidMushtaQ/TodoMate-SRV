@@ -3,18 +3,6 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { GOOGLE_AUTH_REDIRECT_URL } from '../constants.js';
 import { User } from '../modules/user.model.js';
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
 
 passport.use(
   new GoogleStrategy(
@@ -51,4 +39,15 @@ passport.use(
   )
 );
 
-export default passport;
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});

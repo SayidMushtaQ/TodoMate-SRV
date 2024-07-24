@@ -5,15 +5,18 @@ import {excludedPaths} from '../constants.js'
 
 export const requireAuth  = asyncHanlder(async (req, _, next) => { //Authenticaiton
   if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
-  const userToken = new UserTokenHandler();
-  const token = req.cookies?.loginToken;
-  req.user = null;
-  if (!token) throw new ApiError(401, "Access denied. No token provided. Please log in to obtain a token.",['Unauthorized']);
+  // if(req.session?.passport?.user)
+  console.log(req.session?.passport?.user)
+  if(req.session?.passport?.user) return next();
+  // const userToken = new UserTokenHandler();
+  // const token = req.cookies?.loginToken;
+  // req.user = null;
+  // if (!token) throw new ApiError(401, "Access denied. No token provided. Please log in to obtain a token.",['Unauthorized']);
 
-  const user = userToken.getUser(token);
-  if (!user) throw new  ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
+  // const user = userToken.getUser(token);
+  // if (!user) throw new  ApiError(401, "Access denied. Please log in to continue.",['Unauthorized']);
 
-  req.user = user;
+  // req.user = user;
   return next();
 });
 
