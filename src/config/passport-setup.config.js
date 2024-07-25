@@ -4,21 +4,27 @@ import { GOOGLE_AUTH_REDIRECT_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 
-const cookieExtractor = req =>{
+const cookieExtractor = req => {
   let token = null;
-  if(req && req.cookies){
-    token = req.cookies['token']
+  if (req && req.cookies) {
+    token = req.cookies["token"];
   }
   return token;
-}
+};
 passport.use(
   new JWTStrategy(
     {
-      jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-      secretOrKey:process.env.JWT_SECRET
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(), // Extracts from Authorization header as Bearer token
+        ExtractJwt.fromBodyField("token"), // Extracts from a body field named 'token'
+        ExtractJwt.fromUrlQueryParameter("token"), // Extracts from a query parameter named 'token'
+        ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
+        cookieExtractor // Extracts from a cookie named 'jwt'
+      ]),
+      secretOrKey: process.env.JWT_SECRET
     },
     (jwt_payload, cb) => {
-      console.log(jwt_payload)
+      console.log(jwt_payload);
       console.log("Run JWT");
       User.findById(jwt_payload.id)
         .then(user => {
