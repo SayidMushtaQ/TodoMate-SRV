@@ -4,7 +4,6 @@ import cors from "cors";
 import { DATA_LIMIT, API_VERSION_URL } from "./constants.js";
 import cookie_parser from "cookie-parser";
 import { requireAuth } from "./middleware/auth.middleware.js";
-import expressSession from "express-session";
 import passport from "passport";
 import "./config/passport-setup.config.js";
 const app = express();
@@ -15,21 +14,10 @@ app.use(
     credentials: true
   })
 );
-app.use(
-  expressSession({
-    secret: process.env.COOKIE_SESSION_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      secure: false // Set to true if using HTTPS
-    }
-  })
-);
 
 // Passport initisilized
 app.use(passport.initialize());
-app.use(passport.session());
+
 
 //Down below: Data configaration
 app.use(express.json({ limit: DATA_LIMIT }));

@@ -3,5 +3,6 @@ import { asyncHanlder } from "../util/asyncHandler.js";
 
 
 export const userProfile = asyncHanlder(async (req, res) => {
-  res.send(`Welcome Back: ${req.user.userName}`);
+  console.log(req.user)
+  res.send(`Welcome Back:`);
 });

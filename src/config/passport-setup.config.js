@@ -4,13 +4,21 @@ import { GOOGLE_AUTH_REDIRECT_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 
+const cookieExtractor = req =>{
+  let token = null;
+  if(req && req.cookies){
+    token = req.cookies['token']
+  }
+  return token;
+}
 passport.use(
   new JWTStrategy(
     {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "sdhfhjsdfjn0932lkjsfdj309sdn34290sdflk3209lksoieui"
+      jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+      secretOrKey:process.env.JWT_SECRET
     },
     (jwt_payload, cb) => {
+      console.log(jwt_payload)
       console.log("Run JWT");
       User.findById(jwt_payload.id)
         .then(user => {

@@ -4,11 +4,11 @@ import { Router } from "express";
 import { userLogout } from "../controllers/userLogOut.controller.js";
 import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
-
-router.route("/user").get(userProfile);
+router.route("/user").get(passport.authenticate("jwt", { session: false }), userProfile);
 router.route("/register").post(registerUser);
 router.route("/login").post(userLogin);
 router.route("/userLogout").post(userLogout);
@@ -24,8 +24,14 @@ router.route("/googleAuth").get(
 router.route("/googleAuth/redirect").get(
   passport.authenticate("google", {
     failureRedirect: "/api/v1/users/googleAuth",
-    successRedirect: "/api/v1/users/user"
-  })
+    session: false
+  }),
+  (req, res) => {
+    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET);
+    console.log(token);
+    res.cookie("token", token);
+    res.redirect("/api/v1/users/user");
+  }
 );
 
 export default router;
