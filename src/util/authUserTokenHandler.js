@@ -20,14 +20,6 @@ export class UserTokenHandler {
       throw new ApiError(500, "Caused Error while Generationg TOKEN:", [err]);
     }
   }
-  getUser(token) {
-    try {
-      return jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
-    } catch (err) {
-      console.log(err);
-      throw new ApiError(500, "Caused Error while get TOKEN:", [err]);
-    }
-  }
 }
 
 // /**
