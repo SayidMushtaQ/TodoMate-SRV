@@ -24,8 +24,6 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET
     },
     (jwt_payload, cb) => {
-      console.log(jwt_payload);
-      console.log("Run JWT");
       User.findById(jwt_payload.id)
         .then(user => {
           if (user) {
