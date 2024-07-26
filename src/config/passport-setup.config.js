@@ -3,7 +3,6 @@ import path from "path";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { GOOGLE_AUTH_REDIRECT_URL } from "../constants.js";
-import { User } from "../modules/user.model.js";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import { googleCallbackHandler } from "../middleware/strategies/googleCallbackHandler.js";
 import { jwtCallbackHandler } from "../middleware/strategies/JWTcallbackHandler.js";
@@ -40,16 +39,3 @@ passport.use(
     googleCallbackHandler
   )
 );
-
-passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
-
-passport.deserializeUser(async (id, cb) => {
-  try {
-    const user = await User.findById(id);
-    cb(null, user);
-  } catch (err) {
-    cb(["An error occurred while extracting data from the local.", err], null);
-  }
-});
