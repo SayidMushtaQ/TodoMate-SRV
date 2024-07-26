@@ -3,17 +3,16 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { GOOGLE_AUTH_REDIRECT_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
-import fs from 'fs'
+import { googleCallbackHandler } from "./strategies/googleCallbackHandler.js";
+import { jwtCallbackHandler } from "./strategies/JWTcallbackHandler.js";
+import { cookieExtractor } from "../util/cookieExtractor.js";
+import { __dirname } from "../util/getCurrentPath.js";
+import path from "path";
+import fs from "fs";
 
-const publicKey = fs.readFileSync('./src/keys/public.pem','utf-8'); 
+const pathToKey = path.join(__dirname, "..", "keys", "private.pem");
+const PUB_KEY = fs.readFileSync(pathToKey, "utf-8");
 
-const cookieExtractor = req => {
-  let token = null;
-  if (req && req.cookies) {
-    token = req.cookies["token"];
-  }
-  return token;
-};
 passport.use(
   new JWTStrategy(
     {
@@ -24,24 +23,25 @@ passport.use(
         ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
         cookieExtractor // Extracts from a cookie named 'jwt'
       ]),
-      secretOrKey: publicKey,
-      algorithms:['RS256']
+      secretOrKey: PUB_KEY,
+      algorithms: ["RS256"]
     },
-    (jwt_payload, cb) => {
-      console.log('Rund JWT')
-      console.log(jwt_payload)
-      User.findById(jwt_payload._id)
-        .then(user => {
-          if (user) {
-            return cb(null, user);
-          } else {
-            return cb(null, false);
-          }
-        })
-        .catch(err => console.error(err));
-    }
+    jwtCallbackHandler
   )
 );
+
+passport.serializeUser((user, cb) => {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const user = await User.findById(id);
+    cb(null, user);
+  } catch (err) {
+    cb(["An error occurred while extracting data from the local.", err], null);
+  }
+});
 
 passport.use(
   new GoogleStrategy(
@@ -50,43 +50,6 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails[0].value;
-        const userName = email.split("@")[0];
-        const isVerified = profile.emails[0].verified;
-        const provider = profile.provider;
-        const googleID = profile.id;
-        const userExist = await User.findOne({ email });
-
-        if (userExist) {
-          return done(null, userExist);
-        } else {
-          const newUser = await User.create({
-            email,
-            userName,
-            provider,
-            isVerified,
-            googleID
-          });
-          return done(null, newUser);
-        }
-      } catch (err) {
-        return done(err, null);
-      }
-    }
+    googleCallbackHandler
   )
 );
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
