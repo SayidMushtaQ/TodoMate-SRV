@@ -1,7 +1,7 @@
 import { User } from "../../modules/user.model.js";
 
 export const jwtCallbackHandler = (jwt_payload, cb) => {
-    User.findById(jwt_payload._id)
+    User.findById(jwt_payload.id)
       .then(user => {
         if (user) {
           return cb(null, user);

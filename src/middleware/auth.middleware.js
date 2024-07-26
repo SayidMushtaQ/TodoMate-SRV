@@ -3,10 +3,9 @@ import passport from 'passport'
 import { ApiError } from "../util/apiError.js";
 import {excludedPaths} from '../constants.js'
 
-export const requireAuth  = asyncHanlder(async (req, _, next) => { //Authenticaiton
+export const requireAuth  = asyncHanlder(async (req, res, next) => { //Authenticaiton
   if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
-  passport.authenticate("jwt", { session: false })
-  return next();
+  return passport.authenticate("jwt", { session: false })(req,res,next)
 });
 
 export function AllowTo(roles = []) { //Authorization

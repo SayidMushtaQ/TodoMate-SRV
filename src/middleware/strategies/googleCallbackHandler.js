@@ -1,5 +1,5 @@
 import { User } from "../../modules/user.model.js";
-export const googleCallbackHandler = async (accessToken, refreshToken, profile, done) => {
+export const googleCallbackHandler = async (accessToken, refreshToken, profile, cb) => {
   try {
     const email = profile.emails[0].value;
     const userName = email.split("@")[0];
@@ -9,7 +9,7 @@ export const googleCallbackHandler = async (accessToken, refreshToken, profile, 
     const userExist = await User.findOne({ email });
 
     if (userExist) {
-      return done(null, userExist);
+      return cb(null, userExist);
     } else {
       const newUser = await User.create({
         email,
@@ -18,9 +18,9 @@ export const googleCallbackHandler = async (accessToken, refreshToken, profile, 
         isVerified,
         googleID
       });
-      return done(null, newUser);
+      return cb(null, newUser);
     }
   } catch (err) {
-    return done(err, null);
+    return cb(err, null);
   }
 };

@@ -6,7 +6,8 @@ const API_VERSION_URL = "/api/v1";
 const excludedPaths = [
   "/api/v1/users/login",
   "/api/v1/users/register",
-  "/api/v1/users/googleAuth"
+  "/api/v1/users/googleAuth",
+  "/api/v1/users/googleAuth/redirect"
 ];
 const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
 const AUTH_TOKEN_NAME = 'authToken'

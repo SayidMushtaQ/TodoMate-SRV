@@ -1,6 +1,5 @@
 import { asyncHanlder } from "../util/asyncHandler.js";
 import { UserTokenHandler } from "../util/authUserTokenHandler.js";
-import { ApiResponse } from "../util/apiResponse.js";
 import { ApiError } from "../util/apiError.js";
 
 export const goolgeAuthHandler = asyncHanlder((req, res) => {
@@ -12,8 +11,10 @@ export const goolgeAuthHandler = asyncHanlder((req, res) => {
   return res
     .status(200)
     .cookie("authToken", token)
-    .json(
-      new ApiResponse(200, { id: req.user.id, redirectURL: "/user" }, "Login successful.")
-    )
-    .redirect("/api/v1/users/user");
-});
+    .redirect("/api/v1/users/user")
+  });
+  
+  //TODO
+  // .json(
+  //   new ApiResponse(200, { id: req.user.id, redirectURL: "/user" }, "Login successful.")
+  // )
