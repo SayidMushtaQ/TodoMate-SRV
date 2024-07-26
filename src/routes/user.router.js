@@ -5,6 +5,7 @@ import { userLogout } from "../controllers/userLogOut.controller.js";
 import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import { goolgeAuthHandler } from "../controllers/googleAuth.controller.js";
 
 const router = Router();
 
@@ -26,12 +27,7 @@ router.route("/googleAuth/redirect").get(
     failureRedirect: "/api/v1/users/googleAuth",
     session: false
   }),
-  (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET);
-    console.log(token);
-    res.cookie("token", token);
-    res.redirect("/api/v1/users/user");
-  }
+  goolgeAuthHandler
 );
 
 export default router;
