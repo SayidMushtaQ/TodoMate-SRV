@@ -10,7 +10,6 @@ const publicKeyPath = path.join(__dirname, "..", "keys", "public.pem");
 const PRIVATE_KEY = fs.readFileSync(privateKeyPath, "utf-8");
 const PUBLIC_KEY = fs.readFileSync(publicKeyPath, "utf-8");
 
-
 export class UserTokenHandler {
   setUser(user) {
     try {
@@ -18,6 +17,14 @@ export class UserTokenHandler {
     } catch (err) {
       console.log(err);
       throw new ApiError(500, "Caused Error while Generationg TOKEN:", [err]);
+    }
+  }
+  getUser(token) {
+    try {
+      return jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
+    } catch (err) {
+      console.log(err);
+      throw new ApiError(500, "Caused Error while get TOKEN:", [err]);
     }
   }
 }
