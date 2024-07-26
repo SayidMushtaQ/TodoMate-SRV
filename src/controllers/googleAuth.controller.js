@@ -4,7 +4,7 @@ import { ApiError } from "../util/apiError.js";
 
 export const goolgeAuthHandler = asyncHanlder((req, res) => {
   const userToken = new UserTokenHandler();
-  const token = userToken.setUser({ id: req.user.id });
+  const token = userToken.setUser({ id: req.user.id,userName:req.user.userName,email:req.user.email });
   if (!token) {
     throw new ApiError(401, "Token is missing..!!");
   }
