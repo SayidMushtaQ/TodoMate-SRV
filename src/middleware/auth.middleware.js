@@ -1,5 +1,5 @@
 import { asyncHanlder } from "../util/asyncHandler.js";
-import { UserTokenHandler } from "../util/authUserTokenHandler.js";
+import passport from 'passport'
 import { ApiError } from "../util/apiError.js";
 import {excludedPaths} from '../constants.js'
 
