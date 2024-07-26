@@ -9,7 +9,7 @@ const excludedPaths = [
   "/api/v1/users/googleAuth"
 ];
 const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
-
+const AUTH_TOKEN_NAME = 'authToken'
 export {
   DB_NAME,
   DATA_LIMIT,
@@ -17,5 +17,6 @@ export {
   BAD_WORD_REGEX,
   API_VERSION_URL,
   excludedPaths,
-  GOOGLE_AUTH_REDIRECT_URL
+  GOOGLE_AUTH_REDIRECT_URL,
+  AUTH_TOKEN_NAME
 };

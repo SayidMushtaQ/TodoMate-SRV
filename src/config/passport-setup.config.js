@@ -9,6 +9,7 @@ import { googleCallbackHandler } from "../middleware/strategies/googleCallbackHa
 import { jwtCallbackHandler } from "../middleware/strategies/JWTcallbackHandler.js";
 import { cookieExtractor } from "../util/cookieExtractor.js";
 import { __dirname } from "../util/getCurrentPath.js";
+import { AUTH_TOKEN_NAME } from "../constants.js";
 
 const pathToKey = path.join(__dirname, "..", "keys", "private.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf-8");
@@ -18,8 +19,8 @@ passport.use(
     {
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(), // Extracts from Authorization header as Bearer token
-        ExtractJwt.fromBodyField("authToken"), // Extracts from a body field named 'token'
-        ExtractJwt.fromUrlQueryParameter("authToken"), // Extracts from a query parameter named 'token'
+        ExtractJwt.fromBodyField(AUTH_TOKEN_NAME), // Extracts from a body field named 'token'
+        ExtractJwt.fromUrlQueryParameter(AUTH_TOKEN_NAME), // Extracts from a query parameter named 'token'
         ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
         cookieExtractor // Extracts from a cookie named 'jwt'
       ]),
@@ -43,7 +44,6 @@ passport.use(
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
-
 
 passport.deserializeUser(async (id, cb) => {
   try {
