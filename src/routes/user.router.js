@@ -4,12 +4,11 @@ import { Router } from "express";
 import { userLogout } from "../controllers/userLogOut.controller.js";
 import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
-import jwt from "jsonwebtoken";
 import { goolgeAuthHandler } from "../controllers/googleAuth.controller.js";
 
 const router = Router();
 
-router.route("/user").get(passport.authenticate("jwt", { session: false }), userProfile);
+router.route("/user").get(userProfile);
 router.route("/register").post(registerUser);
 router.route("/login").post(userLogin);
 router.route("/userLogout").post(userLogout);
