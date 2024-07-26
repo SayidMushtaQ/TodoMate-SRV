@@ -3,6 +3,9 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { GOOGLE_AUTH_REDIRECT_URL } from "../constants.js";
 import { User } from "../modules/user.model.js";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
+import fs from 'fs'
+
+const publicKey = fs.readFileSync('./src/keys/public.pem','utf-8'); 
 
 const cookieExtractor = req => {
   let token = null;
@@ -21,10 +24,13 @@ passport.use(
         ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
         cookieExtractor // Extracts from a cookie named 'jwt'
       ]),
-      secretOrKey: process.env.JWT_SECRET
+      secretOrKey: publicKey,
+      algorithms:['RS256']
     },
     (jwt_payload, cb) => {
-      User.findById(jwt_payload.id)
+      console.log('Rund JWT')
+      console.log(jwt_payload)
+      User.findById(jwt_payload._id)
         .then(user => {
           if (user) {
             return cb(null, user);
