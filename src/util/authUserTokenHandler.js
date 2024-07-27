@@ -25,25 +25,6 @@ export const generateAccessAndRefreshToken = async userID => {
   }
 };
 
-export class UserTokenHandler {
-  setUser(user) {
-    try {
-      return jwt.sign(user, PRIVATE_KEY, { algorithm: "RS256" });
-    } catch (err) {
-      console.log(err);
-      throw new ApiError(500, "Caused Error while Generationg TOKEN:", [err]);
-    }
-  }
-  getUser(token) {
-    try {
-      return jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
-    } catch (err) {
-      console.log(err);
-      throw new ApiError(500, "Caused Error while get TOKEN:", [err]);
-    }
-  }
-}
-
 // /**
 //  * Token Based - (State Less) Auth
 //     1) User Token Handler

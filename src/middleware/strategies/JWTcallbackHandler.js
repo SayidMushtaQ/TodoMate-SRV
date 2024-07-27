@@ -3,7 +3,6 @@ import { ApiError } from "../../util/apiError.js";
 
 export const jwtCallbackHandler = async (jwt_payload, cb) => {
   try {
-    console.log("Run JWT")
     const user = await User.findById(jwt_payload.id);
     if (!user) {
       return cb("Access denied due to invalid credentials[Unauthorized]", false);

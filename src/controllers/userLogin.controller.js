@@ -3,10 +3,7 @@ import { EMAIL_REGEX } from "../constants.js";
 import { ApiError } from "../util/apiError.js";
 import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
-import {
-  UserTokenHandler,
-  generateAccessAndRefreshToken
-} from "../util/authUserTokenHandler.js";
+import { generateAccessAndRefreshToken } from "../util/authUserTokenHandler.js";
 export const userLogin = asyncHanlder(async (req, res) => {
   /**
    * User login
@@ -18,7 +15,6 @@ export const userLogin = asyncHanlder(async (req, res) => {
    * 4) Login
    */
   const { data, password } = req.body;
-  const userToken = new UserTokenHandler();
   if ([data, password].some(val => val === "")) {
     throw new ApiError(400, "Email or userName ans password is required", [
       "Please fill up all necessary fields"
