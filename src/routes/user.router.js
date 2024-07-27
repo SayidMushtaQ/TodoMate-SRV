@@ -12,7 +12,7 @@ const router = Router();
 router.route("/user").get(userProfile);
 router.route("/register").post(registerUser);
 router.route("/login").post(userLogin);
-router.route("/userLogout").post(userLogout);
+router.route("/logout").post(userLogout);
 router.route("/refreshToken").post(refreshAccessToken);
 
 // Google - Auth
