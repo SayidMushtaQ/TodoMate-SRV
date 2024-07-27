@@ -5,10 +5,8 @@ import { __dirname } from "../util/getCurrentPath.js";
 import { ApiError } from "./apiError.js";
 import { User } from "../modules/user.model.js";
 
-const privateKeyPath = path.join(__dirname, "..", "keys", "private.pem");
-const publicKeyPath = path.join(__dirname, "..", "keys", "public.pem");
 
-const PRIVATE_KEY = fs.readFileSync(privateKeyPath, "utf-8");
+const publicKeyPath = path.join(__dirname, "..", "keys", "public.pem");
 const PUBLIC_KEY = fs.readFileSync(publicKeyPath, "utf-8");
 
 export const generateAccessAndRefreshToken = async userID => {
@@ -25,6 +23,14 @@ export const generateAccessAndRefreshToken = async userID => {
   }
 };
 
+export const getUserFromToken = (token)=>{
+  try {
+    return jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
+  } catch (err) {
+    console.log(err);
+    throw new ApiError(500, "Caused Error while get TOKEN:", [err]);
+  }
+}
 // /**
 //  * Token Based - (State Less) Auth
 //     1) User Token Handler
