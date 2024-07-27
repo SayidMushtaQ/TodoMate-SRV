@@ -5,7 +5,6 @@ import {excludedPaths} from '../constants.js'
 
 export const requireAuth  = asyncHanlder(async (req, res, next) => { //Authenticaiton
   if(excludedPaths.includes(req.path)) return next(); //Exclude for: Login and Register
-  console.log('run middleware')
   return passport.authenticate("jwt", { session: false })(req,res,next)
 });
   
