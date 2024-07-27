@@ -7,7 +7,7 @@ export const googleCallbackHandler = async (accessToken, refreshToken, profile, 
     const provider = profile.provider;
     const googleID = profile.id;
     const user = await User.findOne({ email });
-
+    
     if (!user) {
       const newUser = await User.create({
         email,
@@ -17,11 +17,9 @@ export const googleCallbackHandler = async (accessToken, refreshToken, profile, 
         googleID
       });
       return cb(null, newUser);
-    } 
-    
+    }
     return cb(null, user);
-    
   } catch (err) {
-    return cb(["Something went wrong: During GOOGLE Callback..!!",err], null);
+    return cb(["Something went wrong: During GOOGLE Callback..!!", err], null);
   }
 };
