@@ -3,14 +3,13 @@ import { UserTokenHandler } from "../util/authUserTokenHandler.js";
 import { ApiError } from "../util/apiError.js";
 export const authRedirect = asyncHanlder((req, res) => {
   const userToken = new UserTokenHandler();
-  console.log(req.user)
   const token = userToken.setUser({
     id: req.user.id,
     userName: req.user.userName,
     email: req.user.email
   });
   if (!token) {
-    throw new ApiError(401, "Token is missing..!!");
+    throw new ApiError(500, "Token generating error..!!",["Something went wrong..!!",'Try again']);
   }
   return res.status(200).cookie("authToken", token).redirect("/api/v1/users/user");
 });
