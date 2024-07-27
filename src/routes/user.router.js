@@ -4,8 +4,7 @@ import { Router } from "express";
 import { userLogout } from "../controllers/userLogOut.controller.js";
 import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
-import { goolgeAuthHandler } from "../controllers/googleAuth.controller.js";
-import { gitHubAuthHandler } from "../controllers/githubAuth.contoller.js";
+import { authRedirect } from "../controllers/authRedirect.controller.js";
 
 const router = Router();
 
@@ -25,7 +24,7 @@ router.route("/googleAuth/redirect").get(
     failureRedirect: "/api/v1/users/googleAuth",
     session: false
   }),
-  goolgeAuthHandler
+  authRedirect
 );
 //Github - AUTH
 router
@@ -37,6 +36,6 @@ router.route("/githubAuth/redirect").get(
     failureRedirect: "/api/v1/users/githubAuth",
     session: false
   }),
-  gitHubAuthHandler
+  authRedirect
 );
 export default router;
