@@ -3,9 +3,11 @@ import { EMAIL_REGEX } from "../constants.js";
 import { ApiError } from "../util/apiError.js";
 import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
-import {UserTokenHandler} from '../util/authUserTokenHandler.js'
+import {
+  UserTokenHandler,
+  generateAccessAndRefreshToken
+} from "../util/authUserTokenHandler.js";
 export const userLogin = asyncHanlder(async (req, res) => {
-
   /**
    * User login
    */
@@ -41,21 +43,17 @@ export const userLogin = asyncHanlder(async (req, res) => {
     throw new ApiError(401, "Wrong credentials.");
   }
 
-
-  const uaserPayload = {
-    id:user.id,
-    email:user.email,
-    userName:user.userName,
-    phone:user.phone,
-    role:user.role,
-    provider:user.provider
-  }
-  const token = userToken.setUser(uaserPayload); 
-  return res.status(200).cookie('authToken',token).json( // If you used -> Header Authorization so then u need to send token as json
-    new ApiResponse(
-      200,
-      { id:user.id , redirectURL: "/user" },
-      "Login successful."
-    )
-  );
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user.id);
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken)
+    .cookie("refreshToken", refreshToken)
+    .json(
+      // If you used -> Header Authorization so then u need to send token as json
+      new ApiResponse(
+        200,
+        { id: user.id, redirectURL: "/user", accessToken, refreshToken },
+        "Login successful"
+      )
+    );
 });

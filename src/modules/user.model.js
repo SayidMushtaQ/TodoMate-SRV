@@ -1,6 +1,14 @@
+import fs from "fs";
+import path from "path";
 import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 import { EMAIL_REGEX } from "../constants.js";
+import jwt from "jsonwebtoken";
+import { __dirname } from "../util/getCurrentPath.js";
+
+const privateKeyPath = path.join(__dirname, "..", "keys", "private.pem");
+const PRIVATE_KEY = fs.readFileSync(privateKeyPath, "utf-8");
+
 const userSchema = new mongoose.Schema(
   {
     userName: {
@@ -35,7 +43,8 @@ const userSchema = new mongoose.Schema(
     },
     phone: Number,
     googleID: String,
-    isActive: Boolean
+    isActive: Boolean,
+    refreshToken: String
   },
   { timestamps: true }
 );
@@ -48,8 +57,30 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-  //methods not method
   return await bcryptjs.compare(password, this.password);
+};
+
+userSchema.methods.generateAccessToken = async function () {
+  return jwt.sign(
+    {
+      id: this.id,
+      userName: this.userName,
+      email: this.email,
+      role: this.role,
+      provider: this.provider
+    },
+    PRIVATE_KEY,
+    { algorithm: "RS256", expiresIn: 2 * 24 * 60 * 60 * 1000 }
+  );
+};
+userSchema.methods.generateRefreshTokne = async function () {
+  return jwt.sign(
+    {
+      id: this.id
+    },
+    PRIVATE_KEY,
+    { algorithm: "RS256", expiresIn: 7 * 24 * 60 * 60 * 1000 }
+  );
 };
 
 export const User = mongoose.model("User", userSchema);

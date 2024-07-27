@@ -8,7 +8,6 @@ import { googleCallbackHandler } from "../middleware/strategies/googleCallbackHa
 import { jwtCallbackHandler } from "../middleware/strategies/JWTcallbackHandler.js";
 import { cookieExtractor } from "../util/cookieExtractor.js";
 import { __dirname } from "../util/getCurrentPath.js";
-import { AUTH_TOKEN_NAME } from "../constants.js";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { gitCallbackHandler } from "../middleware/strategies/gitCallbackhandler.js";
 
@@ -40,8 +39,8 @@ passport.use(
     {
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(), // Extracts from Authorization header as Bearer token
-        ExtractJwt.fromBodyField(AUTH_TOKEN_NAME), // Extracts from a body field named 'token'
-        ExtractJwt.fromUrlQueryParameter(AUTH_TOKEN_NAME), // Extracts from a query parameter named 'token'
+        ExtractJwt.fromBodyField("accessToken"), // Extracts from a body field named 'token'
+        ExtractJwt.fromUrlQueryParameter("accessToken"), // Extracts from a query parameter named 'token'
         ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
         cookieExtractor // Extracts from a cookie named 'jwt'
       ]),

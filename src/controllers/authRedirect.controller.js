@@ -1,21 +1,19 @@
 import { asyncHanlder } from "../util/asyncHandler.js";
-import { UserTokenHandler } from "../util/authUserTokenHandler.js";
 import { ApiError } from "../util/apiError.js";
-export const authRedirect = asyncHanlder((req, res) => {
-  const userToken = new UserTokenHandler();
-  const user = req.user;
-  console.log(user)
-  const token = userToken.setUser({
-    id: user.id,
-    userName: user.userName,
-    email: user.email,
-    role:user.role,
-    provider:user.provider
-  });
-  if (!token) {
-    throw new ApiError(500, "Token generating error..!!",["Something went wrong..!!",'Try again']);
+import { generateAccessAndRefreshToken } from "../util/authUserTokenHandler.js";
+export const authRedirect = asyncHanlder(async (req, res) => {
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(req.user.id);
+  if ([accessToken, refreshToken].some(val => val === "")) {
+    throw new ApiError(500, "Token generating error..!!", [
+      "Something went wrong..!!",
+      "Try again"
+    ]);
   }
-  return res.status(200).cookie("authToken", token).redirect("/api/v1/users/user");
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken)
+    .cookie("refreshToken", refreshToken)
+    .redirect("/api/v1/users/user");
 });
 
 //TODO

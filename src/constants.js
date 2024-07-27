@@ -12,7 +12,6 @@ const excludedPaths = [
   "/api/v1/users/githubAuth/redirect"
 ];
 const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
-const AUTH_TOKEN_NAME = 'authToken'
 export {
   DB_NAME,
   DATA_LIMIT,
@@ -21,5 +20,4 @@ export {
   API_VERSION_URL,
   excludedPaths,
   GOOGLE_AUTH_REDIRECT_URL,
-  AUTH_TOKEN_NAME
 };
