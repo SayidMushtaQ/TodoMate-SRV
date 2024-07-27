@@ -47,13 +47,14 @@ export const userLogin = asyncHanlder(async (req, res) => {
     email:user.email,
     userName:user.userName,
     phone:user.phone,
-    role:user.role
+    role:user.role,
+    provider:user.provider
   }
   const token = userToken.setUser(uaserPayload); 
   return res.status(200).cookie('authToken',token).json( // If you used -> Header Authorization so then u need to send token as json
     new ApiResponse(
       200,
-      { user: user, redirectURL: "/dashboard" },
+      { id:user.id , redirectURL: "/user" },
       "Login successful."
     )
   );
