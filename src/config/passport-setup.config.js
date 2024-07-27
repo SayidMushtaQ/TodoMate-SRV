@@ -9,10 +9,32 @@ import { jwtCallbackHandler } from "../middleware/strategies/JWTcallbackHandler.
 import { cookieExtractor } from "../util/cookieExtractor.js";
 import { __dirname } from "../util/getCurrentPath.js";
 import { AUTH_TOKEN_NAME } from "../constants.js";
+import { Strategy as GithubStrategy } from "passport-github2";
+import { gitCallbackHandler } from "../middleware/strategies/gitCallbackhandler.js";
 
 const pathToKey = path.join(__dirname, "..", "keys", "private.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf-8");
 
+passport.use(
+  new GoogleStrategy(
+    {
+      callbackURL: GOOGLE_AUTH_REDIRECT_URL,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    },
+    googleCallbackHandler
+  )
+);
+passport.use(
+  new GithubStrategy(
+    {
+      clientID: process.env.GIT_CLIENT_ID,
+      clientSecret: process.env.GIT_CLIENT_SECRET,
+      callbackURL: "/api/v1/users/githubAuth/redirect"
+    },
+    gitCallbackHandler
+  )
+);
 passport.use(
   new JWTStrategy(
     {
@@ -27,15 +49,5 @@ passport.use(
       algorithms: ["RS256"]
     },
     jwtCallbackHandler
-  )
-);
-passport.use(
-  new GoogleStrategy(
-    {
-      callbackURL: GOOGLE_AUTH_REDIRECT_URL,
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
-    },
-    googleCallbackHandler
   )
 );

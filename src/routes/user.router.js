@@ -5,22 +5,21 @@ import { userLogout } from "../controllers/userLogOut.controller.js";
 import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
 import { goolgeAuthHandler } from "../controllers/googleAuth.controller.js";
+import { gitHubAuthHandler } from "../controllers/githubAuth.contoller.js";
 
 const router = Router();
 
 router.route("/user").get(userProfile);
 router.route("/register").post(registerUser);
-router.route("/login").post(userLogin); 
+router.route("/login").post(userLogin);
 router.route("/userLogout").post(userLogout);
 
 // Google - Auth
-
 router.route("/googleAuth").get(
   passport.authenticate("google", {
     scope: ["profile", "email"]
   })
 );
-
 router.route("/googleAuth/redirect").get(
   passport.authenticate("google", {
     failureRedirect: "/api/v1/users/googleAuth",
@@ -28,5 +27,16 @@ router.route("/googleAuth/redirect").get(
   }),
   goolgeAuthHandler
 );
+//Github - AUTH
+router
+  .route("/githubAuth")
+  .get(passport.authenticate("github", { scope: ["user:email"] }));
 
+router.route("/githubAuth/redirect").get(
+  passport.authenticate("github", {
+    failureRedirect: "/api/v1/users/githubAuth",
+    session: false
+  }),
+  gitHubAuthHandler
+);
 export default router;
