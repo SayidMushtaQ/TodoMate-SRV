@@ -16,7 +16,7 @@ const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
-  sameSite: "strict"
+  // sameSite: 'strict' TODO:Production
 };
 
 export {
