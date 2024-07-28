@@ -10,8 +10,13 @@ export const verifyEmail = asyncHanlder(async (req, res) => {
     throw new ApiError(400, "Invalid token");
   }
   const user = await User.findById(decode.id);
+
   if (!user) {
     throw new ApiError(404, "User  not Found");
   }
-  res.send(decode, user);
+  user.isVerified = true;
+  await user.save();
+  res
+    .status(200)
+    .json(new ApiResponse(200, { email:user.email }, "Email Verified Successfully"));
 });
