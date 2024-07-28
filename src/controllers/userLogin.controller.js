@@ -4,6 +4,7 @@ import { ApiError } from "../util/apiError.js";
 import { User } from "../modules/user.model.js";
 import { ApiResponse } from "../util/apiResponse.js";
 import { generateAccessAndRefreshToken } from "../util/authUserTokenHandler.js";
+import { COOKIE_OPTIONS } from "../constants.js";
 export const userLogin = asyncHanlder(async (req, res) => {
   /**
    * User login
@@ -42,8 +43,8 @@ export const userLogin = asyncHanlder(async (req, res) => {
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user.id);
   return res
     .status(200)
-    .cookie("accessToken", accessToken)
-    .cookie("refreshToken", refreshToken)
+    .cookie("accessToken", accessToken,COOKIE_OPTIONS)
+    .cookie("refreshToken", refreshToken,COOKIE_OPTIONS)
     .json(
       // If you used -> Header Authorization so then u need to send token as json
       new ApiResponse(

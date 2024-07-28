@@ -6,7 +6,7 @@ import {
   getUserFromToken,
   generateAccessAndRefreshToken
 } from "../util/authUserTokenHandler.js";
-
+import { COOKIE_OPTIONS } from "../constants.js";
 export const refreshAccessToken = asyncHanlder(async (req, res) => {
   const incommingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
   if (!incommingRefreshToken) {
@@ -21,8 +21,8 @@ export const refreshAccessToken = asyncHanlder(async (req, res) => {
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user.id);
   return res
     .status(200)
-    .cookie("accessToken", accessToken)
-    .cookie("refreshToken", refreshToken)
+    .cookie("accessToken", accessToken,COOKIE_OPTIONS)
+    .cookie("refreshToken", refreshToken,COOKIE_OPTIONS)
     .json(
       new ApiResponse(
         200,
