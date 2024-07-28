@@ -10,12 +10,13 @@ const excludedPaths = [
   "/api/v1/users/googleAuth",
   "/api/v1/users/googleAuth/redirect",
   "/api/v1/users/githubAuth",
-  "/api/v1/users/githubAuth/redirect"
+  "/api/v1/users/githubAuth/redirect",
+  "/api/v1/users/verifyEmail"
 ];
 const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: true,
+  secure: true
   // sameSite: 'strict' TODO:Production
 };
 

@@ -1,6 +1,7 @@
 import { User } from "../modules/user.model.js";
 import { asyncHanlder } from "../util/asyncHandler.js";
 import { ApiError } from "../util/apiError.js";
+import { ApiResponse } from "../util/apiResponse.js";
 import { TokenHandler } from "../util/tokenHandler.js";
 export const verifyEmail = asyncHanlder(async (req, res) => {
   const token = req.query.token;
@@ -15,8 +16,8 @@ export const verifyEmail = asyncHanlder(async (req, res) => {
     throw new ApiError(404, "User  not Found");
   }
   user.isVerified = true;
-  await user.save();
+  await user.save({validateBeforeSave:false});
   res
     .status(200)
-    .json(new ApiResponse(200, { email:user.email }, "Email Verified Successfully"));
+    .json(new ApiResponse(200, { email: user.email }, "Email Verified Successfully"));
 });

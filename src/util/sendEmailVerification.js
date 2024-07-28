@@ -24,14 +24,13 @@ const htmlContentHandler = ({email,userName,uri}) => {
 export const sendEmailVerification = async (email, userName, token) => {
   try {
     const uri = `${process.env.BASE_URL}${API_VERSION_URL}/users/verifyEmail?token=${token}`;
-    console.log(uri)
-    // const htmlContent = htmlContentHandler({email,userName,uri});
-    // await transporter.sendMail({
-    //     from:  `'"TodoMate 🚀" <${process.env.EMAIL_USERNAME}>'`,
-    //     to: email,
-    //     subject: "Verification EMAIL",
-    //     html: htmlContent
-    // })
+    const htmlContent = htmlContentHandler({email,userName,uri});
+    await transporter.sendMail({
+        from:  `'"TodoMate 🚀" <${process.env.EMAIL_USERNAME}>'`,
+        to: email,
+        subject: "Verification EMAIL",
+        html: htmlContent
+    })
     return { success: true, message: "Verification URI sent successfully." };
   } catch (emailError) {
     console.error("Error sending verification email:", emailError);
