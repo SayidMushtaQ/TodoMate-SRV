@@ -3,10 +3,11 @@ import { ApiResponse } from "../util/apiResponse.js";
 import { asyncHanlder } from "../util/asyncHandler.js";
 import { TokenHandler } from "../util/tokenHandler.js";
 import { sendEmailVerification } from "../util/sendEmailVerification.js";
-export const sendVerification = asyncHanlder(async (req, res) => {
+export const sendVerificationToken = asyncHanlder(async (req, res) => {
   const user = req.user;
   const tokens = new TokenHandler();
   const token = tokens.generateToken(user.id);
+  console.log(token)
   if (!token) {
     throw new ApiError(500, "Something went Wrong while Generating TOKEN", [
       "internal server error"

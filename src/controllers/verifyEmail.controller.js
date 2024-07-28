@@ -15,8 +15,11 @@ export const verifyEmail = asyncHanlder(async (req, res) => {
   if (!user) {
     throw new ApiError(404, "User  not Found");
   }
+  if (user.isVerified) {
+    throw new ApiError(401, "User Already Verified");
+  }
   user.isVerified = true;
-  await user.save({validateBeforeSave:false});
+  await user.save({ validateBeforeSave: false });
   return res
     .status(200)
     .json(new ApiResponse(200, { email: user.email }, "Email Verified Successfully"));
