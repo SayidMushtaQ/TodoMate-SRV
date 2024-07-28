@@ -6,7 +6,8 @@ import { userProfile } from "../controllers/userProfile.controller.js";
 import passport from "passport";
 import { authRedirect } from "../controllers/authRedirect.controller.js";
 import { refreshAccessToken } from "../controllers/refreshToken.controller.js";
-
+import { sendVerification } from "../controllers/sendVerification.js";
+import { verifyEmail } from "../controllers/verifyEmail.controller.js";
 const router = Router();
 
 router.route("/user").get(userProfile);
@@ -14,6 +15,8 @@ router.route("/register").post(registerUser);
 router.route("/login").post(userLogin);
 router.route("/logout").post(userLogout);
 router.route("/refreshToken").post(refreshAccessToken);
+router.route("/sendVerification").get(sendVerification);
+router.route("/verifyEmail").get(verifyEmail);
 
 // Google - Auth
 router.route("/googleAuth").get(
