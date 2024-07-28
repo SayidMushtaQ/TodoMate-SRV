@@ -10,7 +10,7 @@ const htmlContentHandler = ({email,userName,uri}) => {
                 </div>
                 <div style="padding: 30px; text-align: center;">
                     <h2 style="margin: 0 0 20px;">Welcome ${userName}!</h2>
-                    <p style="margin: 0 0 20px;">Thank you for signing up. Please verify your ${email} address by clicking the button below.</p>
+                    <p style="margin: 0 0 20px;">Thank you for signing up. Please verify your ${email} address by clicking the button below, this token has expired after 5 minutes.</p>
                     <a href="${uri}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; color: #fff; background: #ff758c; border-radius: 5px; text-decoration: none;">Verify Email</a>
                     <p style="margin: 0;">If you didn't sign up for this account, you can ignore this email.</p>
                 </div>
