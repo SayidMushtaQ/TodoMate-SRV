@@ -7,7 +7,6 @@ export const sendVerificationToken = asyncHanlder(async (req, res) => {
   const user = req.user;
   const tokens = new TokenHandler();
   const token = tokens.generateToken(user.id);
-  console.log(token)
   if (!token) {
     throw new ApiError(500, "Something went Wrong while Generating TOKEN", [
       "internal server error"
