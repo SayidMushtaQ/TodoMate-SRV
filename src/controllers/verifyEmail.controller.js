@@ -17,7 +17,7 @@ export const verifyEmail = asyncHanlder(async (req, res) => {
   }
   user.isVerified = true;
   await user.save({validateBeforeSave:false});
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, { email: user.email }, "Email Verified Successfully"));
 });
