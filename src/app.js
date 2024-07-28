@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import { DATA_LIMIT, API_VERSION_URL } from "./constants.js";
@@ -6,6 +5,7 @@ import cookie_parser from "cookie-parser";
 import { requireAuth } from "./middleware/auth.middleware.js";
 import passport from "passport";
 import "./config/passport-setup.config.js";
+import { rateLimit } from "express-rate-limit";
 const app = express();
 
 app.use(
@@ -14,10 +14,16 @@ app.use(
     credentials: true
   })
 );
+app.use( //Prevent D-DOS Attack 
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    message: "Too many requests from this IP, please try again later."
+  })
+);
 
 // Passport initisilized
 app.use(passport.initialize());
-
 
 //Down below: Data configaration
 app.use(express.json({ limit: DATA_LIMIT }));
