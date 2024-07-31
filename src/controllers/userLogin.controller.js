@@ -10,22 +10,22 @@ export const userLogin = asyncHanlder(async (req, res) => {
    * User login
    */
   /**
-   * 1) Get data and validate
+   * 1) Get userInput and validate
    * 2) Find the user and validate
    * 3) Match the passwords
    * 4) Login
    */
-  const { data, password } = req.body;
-  if ([data, password].some(val => val === "")) {
+  const { userInput, password } = req.body;
+  if ([userInput, password].some(val => val === "")) {
     throw new ApiError(400, "Email or userName ans password is required", [
       "Please fill up all necessary fields"
     ]);
   }
   let userName, email;
-  if (EMAIL_REGEX.test(data)) {
-    email = data;
+  if (EMAIL_REGEX.test(userInput)) {
+    email = userInput;
   } else {
-    userName = data;
+    userName = userInput;
   }
 
   const user = await User.findOne({
