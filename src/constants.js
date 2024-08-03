@@ -15,9 +15,9 @@ const excludedPaths = [
 ];
 const GOOGLE_AUTH_REDIRECT_URL = "/api/v1/users/googleAuth/redirect";
 const COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: true
-  // sameSite: 'strict' TODO:Production
+  // httpOnly: true,//TODO:Production
+  secure: true, 
+  sameSite: 'strict'
 };
 
 export {
