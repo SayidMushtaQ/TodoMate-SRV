@@ -4,16 +4,6 @@ import { User } from "../modules/user.model.js";
 import { ApiError } from "../util/apiError.js";
 import { EMAIL_REGEX } from "../constants.js";
 export const registerUser = asyncHanlder(async (req, res) => {
-  /**
-   * User Register - Api
-   */
-  /**
-   * 1) Get data from user and validate(Basic)
-   * 2) Email varification
-   * 3) Check user already exist or not
-   * 5) Store user data
-   */
-
   const { userName, fullName, email, password, phone,role } = req.body;
   if ([fullName, userName, email, password, phone].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [

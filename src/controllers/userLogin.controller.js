@@ -6,15 +6,6 @@ import { ApiResponse } from "../util/apiResponse.js";
 import { generateAccessAndRefreshToken } from "../util/authUserTokenHandler.js";
 import { COOKIE_OPTIONS } from "../constants.js";
 export const userLogin = asyncHanlder(async (req, res) => {
-  /**
-   * User login
-   */
-  /**
-   * 1) Get userInput and validate
-   * 2) Find the user and validate
-   * 3) Match the passwords
-   * 4) Login
-   */
   const { userInput, password } = req.body;
   if ([userInput, password].some(val => val === "")) {
     throw new ApiError(400, "Email or userName ans password is required", [
