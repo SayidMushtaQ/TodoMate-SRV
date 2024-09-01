@@ -4,7 +4,7 @@ import { User } from "../modules/user.model.js";
 import { ApiError } from "../util/apiError.js";
 import { EMAIL_REGEX } from "../constants.js";
 export const registerUser = asyncHanlder(async (req, res) => {
-  const { userName, fullName, email, password, phone,role } = req.body;
+  const { userName, fullName, email, password, phone } = req.body;
   if ([fullName, userName, email, password, phone].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [
       "Please fill up all necessary fields"
@@ -28,7 +28,6 @@ export const registerUser = asyncHanlder(async (req, res) => {
     email,
     password,
     phone,
-    role
   });
   const userRegisterRes = {
     userName: newUser.userName,
