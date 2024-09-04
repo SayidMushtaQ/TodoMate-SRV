@@ -4,8 +4,8 @@ import { User } from "../modules/user.model.js";
 import { ApiError } from "../util/apiError.js";
 import { EMAIL_REGEX } from "../constants.js";
 export const registerUser = asyncHanlder(async (req, res) => {
-  const { userName, fullName, email, password, phone } = req.body;
-  if ([fullName, userName, email, password, phone].some(val => val === "")) {
+  const { userName, fullname, email, password, phone } = req.body;
+  if ([fullname, userName, email, password, phone].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [
       "Please fill up all necessary fields"
     ]);
@@ -24,7 +24,7 @@ export const registerUser = asyncHanlder(async (req, res) => {
 
   const newUser = await User.create({
     userName,
-    fullName,
+    fullname,
     email,
     password,
     phone,
@@ -32,10 +32,9 @@ export const registerUser = asyncHanlder(async (req, res) => {
   const userRegisterRes = {
     userName: newUser.userName,
     email: newUser.email,
-    fullName: newUser.fullName,
+    fullname: newUser.fullname,
     role:newUser.role
   };
-
   res
     .status(201)
     .json(new ApiResponse(200, { userRegisterRes }, "Data received sucessfully"));
