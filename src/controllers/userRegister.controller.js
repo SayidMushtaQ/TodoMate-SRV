@@ -16,7 +16,7 @@ export const registerUser = asyncHanlder(async (req, res) => {
     ]);
   }
   const isUserExist = await User.findOne({
-    $or: [{ userName }, { email }]
+    $or: [{ userName }, { email }]  
   });
   if (isUserExist) {
     throw new ApiError(409, "User already exist");
@@ -37,5 +37,5 @@ export const registerUser = asyncHanlder(async (req, res) => {
   };
   res
     .status(201)
-    .json(new ApiResponse(200, { userRegisterRes }, "Data received sucessfully"));
+    .json(new ApiResponse(200, { newUser:userRegisterRes }, "Data received sucessfully"));
 });
