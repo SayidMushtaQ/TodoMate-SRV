@@ -38,11 +38,11 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJwt.fromExtractors([
-        ExtractJwt.fromAuthHeaderAsBearerToken(), // Extracts from Authorization header as Bearer token
-        ExtractJwt.fromBodyField("accessToken"), // Extracts from a body field named 'token'
-        ExtractJwt.fromUrlQueryParameter("accessToken"), // Extracts from a query parameter named 'token'
-        ExtractJwt.fromAuthHeaderWithScheme("JWT"), // Extracts from Authorization header with 'JWT' scheme
-        cookieExtractor // Extracts from a cookie named 'jwt'
+        ExtractJwt.fromAuthHeaderAsBearerToken(), 
+        ExtractJwt.fromBodyField("accessToken"), 
+        ExtractJwt.fromUrlQueryParameter("accessToken"), 
+        ExtractJwt.fromAuthHeaderWithScheme("accessToken"), 
+        cookieExtractor
       ]),
       secretOrKey: PUB_KEY,
       algorithms: ["RS256"]
