@@ -2,15 +2,9 @@ import mongoose from 'mongoose';
 
 const todoShema = new mongoose.Schema(
   {
-    content: {
-      title:{
-        type:String,
-        required: true
-      },
-      description:{
-        type:String,
-        required: true
-      },
+    title:{
+      type:String,
+      required: true
     },
     isComplete: {
       type: Boolean,
