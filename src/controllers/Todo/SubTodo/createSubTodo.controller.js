@@ -9,21 +9,21 @@ export const createSubTodo = asyncHanlder(async (req, res) => {
    * Sub TODO
    */
   /**
-   * 1) Get Content and validate
-   * 2) Check Content
+   * 1) Get title and validate
+   * 2) Check title
    * 3) Check TODO Present or NOT
    * 3) Add in DB
    */
-  const { content, todoID } = req.body;
+  const { title, todoID } = req.body;
 
-  if ([content, todoID].some(val => val === "")) {
+  if ([title, todoID].some(val => val === "")) {
     throw new ApiError(400, "All fields are required", [
       "Please fill up all necessary fields"
     ]);
   }
 
-  if (BAD_WORD_REGEX.test(content)) {
-    throw new ApiError(400, "Content contains inappropriate or sexual context.", [
+  if (BAD_WORD_REGEX.test(title)) {
+    throw new ApiError(400, "title contains inappropriate or sexual context.", [
       "Please follow the guidelines"
     ]);
   }
@@ -34,7 +34,7 @@ export const createSubTodo = asyncHanlder(async (req, res) => {
   }
 
   const newSubTodo = await SubTodo.create({
-    content,
+    title,
     createdBy: todo.id
   });
 
