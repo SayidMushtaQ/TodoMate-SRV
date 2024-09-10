@@ -5,7 +5,6 @@ import { ApiError } from "../../../util/apiError.js";
 
 export const readSubTodos = asyncHanlder(async (req, res) => {
   const { todoID } = req.params;
-  console.log(todoID)
   if (!todoID) {
     throw new ApiError(400, "Something went wrong..!!");
   }
