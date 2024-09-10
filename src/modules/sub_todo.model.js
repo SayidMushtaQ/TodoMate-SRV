@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const subTodoShema = new mongoose.Schema(
   {
-    content: {
+    title: {
       type: String,
       required: true,
     },
