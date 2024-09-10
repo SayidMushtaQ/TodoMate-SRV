@@ -7,7 +7,7 @@ import {deleteSubTodo} from '../controllers/Todo/SubTodo/deleteSubTodo.controlle
 const router = Router();
 
 router.route("/createSubTodo").post(createSubTodo);
-router.route("/subTodos").post(readSubTodos);
+router.route("/subTodos/:todoID").get(readSubTodos);
 router.route("/updateSubTodo").patch(updateSubTodo);
 router.route("/deleteSubTodo").delete(deleteSubTodo);
 

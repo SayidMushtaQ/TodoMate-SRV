@@ -4,7 +4,7 @@ import { asyncHanlder } from "../../../util/asyncHandler.js";
 import { ApiError } from "../../../util/apiError.js";
 
 export const readSubTodos = asyncHanlder(async (req, res) => {
-  const { todoID } = req.body;
+  const { todoID } = req.params;
   if (!todoID) {
     throw new ApiError(400, "Something went wrong..!!");
   }
