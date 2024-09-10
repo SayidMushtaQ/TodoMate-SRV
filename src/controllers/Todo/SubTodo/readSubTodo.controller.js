@@ -5,16 +5,17 @@ import { ApiError } from "../../../util/apiError.js";
 
 export const readSubTodos = asyncHanlder(async (req, res) => {
   const { todoID } = req.params;
+  console.log(todoID)
   if (!todoID) {
     throw new ApiError(400, "Something went wrong..!!");
   }
 
   const subTodos = await SubTodo.find({ createdBy: todoID });
 
-  if(!subTodos.length){
-    throw new ApiError(404, "Sub Todos does not found");
+  if(!subTodos.length){ // If there is no sub Todo
+    return res.status(200).json(new ApiResponse(200,{subTodos:null},"Does not found any Sub todo"))
   }
-  res
+  return res
     .status(200)
     .json(
       new ApiResponse(
